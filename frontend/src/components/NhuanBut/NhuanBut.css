@@ -1,0 +1,54 @@
+.nhuanbut-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.form-box {
+  border: 2px dashed #2196f3; /* Đổi sang màu xanh dương cho dễ phân biệt với trang Tác Giả */
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.form-nhap {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.form-nhap input,
+.form-nhap select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-luu-bai {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.btn-luu-bai:hover {
+  background-color: #0b7dda;
+}
+
+.bang-danh-sach {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bang-danh-sach th {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.bang-danh-sach td {
+  padding: 10px;
+}
