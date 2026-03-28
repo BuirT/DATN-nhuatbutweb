@@ -10,9 +10,9 @@ Viết README.md để người khác biết đồ án có cái gì.
 ---
 
 Mỗi lần code xong một tính năng, cứ dùng 3 lệnh này để lưu code lại và chia sẻ cho nhóm.
-git add .
-git commit -m "lời nhắn của bạn"
-git push origin main
+"git add ."
+"git commit -m "lời nhắn của bạn" "
+"git push origin main"
 
 # Cách mời bạn bè vào chung kho code
 
@@ -29,23 +29,23 @@ Sau khi vào nhóm, các bạn của anh sẽ mở Terminal trên máy họ và 
 git clone https://github.com/BuirT/DATN-nhuatbutweb.git (Tải code về máy).
 cd <tên-dự-án> (Đi vào thư mục dự án).
 Bước cực kỳ quan trọng: Vì anh đã giấu các thư viện nặng ở file .gitignore, nên các bạn ấy phải tự cài lại thư viện trên máy họ bằng cách:
-Vào thư mục backend gõ: npm install
-Vào thư mục frontend gõ: npm install
+Vào thư mục backend gõ: npm install.
+Vào thư mục frontend gõ: npm install.
 
 # Cách tách code an toàn cho Branch
 
 Thay vì code thẳng lên nhánh main, mỗi người khi làm một chức năng mới sẽ tự tạo ra một nhánh riêng (giống như copy ra một bản nháp).
 Quy trình cho các đồng chí trong nhóm sẽ như sau:
-Tạo nhánh nháp: Trước khi code, mhở Terminal gõ lệnh tạo nhánh mới (ví dụ Văn Hải) nhập lệnh: git checkout -b nhanh-van-hai
+Tạo nhánh nháp: Trước khi code, mhở Terminal gõ lệnh tạo nhánh mới (ví dụ Văn Hải) nhập lệnh: git checkout -b nhanh-van-hai.
 Code bình thường: Gõ code, sửa file thoải mái trên nhánh này. Nó sẽ không ảnh hưởng gì đến main.
 Lưu và đẩy nhánh nháp lên GitHub thì nhập lệnh trong terminal:
-git add .
-git commit -m "Lời nhắn"
-git push origin nhanh-van-hai
+"git add ."
+"git commit -m "Lời nhắn" "
+"git push origin nhanh-van-hai"
 
 ---
 
-Trưởng nhóm duyệt code bằng Pull Request (PR)
+Trưởng nhóm duyệt code bằng Pull Request (PR).
 Khi bạn anh đẩy cái nhanh-van-hai lên, trên GitHub của anh sẽ hiện ra một thông báo màu xanh lá hỏi là có muốn Compare & pull request (So sánh và gộp code) không.
 Đồng chí kia sẽ tạo một Pull Request (Đơn xin gộp code vào main).
 Trưởng nhóm (với tư cách là Leader) sẽ vào GitHub xem cái Pull Request đó. Anh có thể xem chi tiết bạn đó đã viết thêm dòng code nào, xóa dòng nào.
@@ -54,7 +54,7 @@ Nếu code ngon lành, chạy tốt, trưởng nhóm mới tự tay bấm nút M
 
 ---
 
-Thiết lập "Khiên bảo vệ" cấm đẩy code thẳng vào Main
+Thiết lập "Khiên bảo vệ" cấm đẩy code thẳng vào Main.
 Để chắc chắn không ai (kể cả anh lỡ tay) gõ lệnh git push origin main, anh bật khiên bảo vệ lên:
 Vào Settings trên GitHub của dự án.
 Chọn mục Branches ở menu bên trái.
