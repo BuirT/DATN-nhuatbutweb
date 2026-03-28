@@ -5,6 +5,7 @@ import "./DuyetChi.css";
 function DuyetChi() {
   const [danhSachBaiViet, setDanhSachBaiViet] = useState([]);
 
+  // Lấy danh sách bài viết (Vẫn giữ nguyên API của Nhuận Bút)
   const layDuLieu = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/nhuanbut/danh-sach");
@@ -24,7 +25,8 @@ function DuyetChi() {
     if (!xacNhan) return;
 
     try {
-      await axios.put(`http://localhost:5000/api/nhuanbut/duyet-bai/${id}`, {
+      // Đã đổi đường dẫn thành api/duyetchi/duyet-bai
+      await axios.put(`http://localhost:5000/api/duyetchi/duyet-bai/${id}`, {
         trangThai: "Đã duyệt",
       });
       alert("Đã duyệt thành công!");

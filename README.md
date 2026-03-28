@@ -1,4 +1,4 @@
-# DATN-nhuatbutweb
+# 📰 HỆ THỐNG QUẢN LÝ NHUẬN BÚT TÒA SOẠN BÁO
 
 Luôn luôn đọc README.md để tạo thói quen theo dõi tiến độ.
 Đọc README.md để cập nhật thêm kiến thức bổ ích.
@@ -15,6 +15,63 @@ Mỗi lần code xong, dùng 3 lệnh này để lưu code lại và chia sẻ c
 "git push origin <tên-nhánh>"
 
 Muốn cập nhật code mới nhất thì nhập lệnh: git pull origin main.
+
+---
+
+Hệ thống web ứng dụng quản lý quy trình chấm và chi trả nhuận bút cho các phóng viên, cộng tác viên tại Tòa soạn báo. Đồ án được xây dựng với kiến trúc MERN Stack hiện đại, phân quyền rõ ràng giữa Lãnh đạo và Thư ký.
+
+## 🚀 Các Tính Năng Nổi Bật
+
+- **🔐 Xác thực & Phân quyền:** Đăng nhập bảo mật bằng JWT, phân chia quyền hạn nghiêm ngặt (Lãnh đạo được duyệt chi, Thư ký chỉ được nhập liệu).
+- **👥 Quản lý Tác giả/Phóng viên:** Thêm, sửa, xóa thông tin chi tiết của người viết bài.
+- **📝 Quản lý Nhuận bút:** Ghi nhận bài viết, tính toán số tiền nhuận bút cho từng đầu báo.
+- **✅ Lãnh đạo Ký duyệt:** Giao diện duyệt chi nhanh chóng chỉ với một thao tác click.
+- **📊 Báo cáo Thống kê:** \* Biểu đồ trực quan (Recharts) phân tích chi phí theo từng tháng/năm.
+  - Tính năng xuất báo cáo tự động ra file **Excel** nộp cho kế toán.
+
+## 🛠️ Công Nghệ Sử Dụng (MERN Stack)
+
+- **Frontend:** React.js, React Router, Axios, Recharts (Biểu đồ), XLSX (Xuất Excel).
+- **Backend:** Node.js, Express.js.
+- **Database:** MongoDB & Mongoose.
+- **Bảo mật:** Bcrypt.js (Mã hóa mật khẩu), JSON Web Token (JWT).
+
+## ⚙️ Hướng Dẫn Cài Đặt & Chạy Dự Án
+
+Để chạy hệ thống trên máy tính cá nhân, vui lòng thực hiện các bước sau:
+
+### Bước 1: Khởi động Backend (Máy chủ & CSDL)
+
+1. Mở Terminal và di chuyển vào thư mục backend: `cd backend`
+2. Cài đặt các thư viện cần thiết: `npm install`
+3. Khởi động server: `node server.js`
+   _(Máy chủ sẽ chạy tại địa chỉ http://localhost:5000)_
+
+### Bước 2: Khởi động Frontend (Giao diện người dùng)
+
+1. Mở một Terminal mới và di chuyển vào thư mục frontend: `cd frontend`
+2. Cài đặt các thư viện React: `npm install`
+3. Chạy giao diện web: `npm run dev`
+   _(Trình duyệt sẽ tự động mở tại http://localhost:5173)_
+
+## 🔑 Tài Khoản Kiểm Thử (Dành cho Giảng viên chấm thi)
+
+Hệ thống cung cấp sẵn 2 cấp độ phân quyền để test thử:
+
+**1. Tài khoản Lãnh đạo (Toàn quyền quản trị & Duyệt chi):**
+
+- Tài khoản: `admin`
+- Mật khẩu: `123456`
+
+**2. Tài khoản Thư ký (Chỉ nhập liệu, không được duyệt tiền):**
+
+- Tài khoản: `thuky1`
+- Mật khẩu: `123456`
+  _(Lưu ý: Bạn có thể tự tạo tài khoản mới ngay trên giao diện Đăng ký của hệ thống)._
+
+---
+
+_Đồ án tốt nghiệp được thực hiện và phát triển với tâm huyết._
 
 # Cách mời bạn bè vào chung kho code
 
