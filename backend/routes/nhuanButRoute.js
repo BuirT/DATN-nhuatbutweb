@@ -42,4 +42,24 @@ router.put("/duyet-bai/:id", async (req, res) => {
   }
 });
 
+// 4. API Xóa Bài Viết/Nhuận Bút
+router.delete("/:id", async (req, res) => {
+  try {
+    await NhuanBut.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Đã xóa bài viết thành công!" });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi khi xóa bài viết!", error: error.message });
+  }
+});
+
+// 5. API Cập nhật thông tin bài viết
+router.put("/:id", async (req, res) => {
+  try {
+    const capNhatBai = await NhuanBut.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.status(200).json({ message: "Cập nhật bài viết thành công!", data: capNhatBai });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi khi cập nhật bài viết!", error: error.message });
+  }
+});
+
 module.exports = router;

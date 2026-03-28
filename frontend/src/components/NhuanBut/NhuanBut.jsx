@@ -4,7 +4,8 @@ import "./NhuanBut.css";
 
 function NhuanBut() {
   const [danhSachBaiViet, setDanhSachBaiViet] = useState([]);
-  const [danhSachTacGia, setDanhSachTacGia] = useState([]); // Để làm menu chọn tác giả
+  const [danhSachTacGia, setDanhSachTacGia] = useState([]);
+  const [isEditing, setIsEditing] = useState(null); // Lưu ID bài viết đang sửa
 
   const [formData, setFormData] = useState({
     tenBai: "",
@@ -15,14 +16,10 @@ function NhuanBut() {
     ghiChu: "",
   });
 
-  // Gọi API lấy dữ liệu khi mở trang
   const layDuLieu = async () => {
     try {
-      // Lấy danh sách bài viết
       const resBaiViet = await axios.get("http://localhost:5000/api/nhuanbut/danh-sach");
       setDanhSachBaiViet(resBaiViet.data);
-
-      // Lấy danh sách tác giả để đưa vào thẻ <select>
       const resTacGia = await axios.get("http://localhost:5000/api/tacgia/danh-sach");
       setDanhSachTacGia(resTacGia.data);
     } catch (error) {
@@ -38,74 +35,112 @@ function NhuanBut() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // --- HÀM XÓA BÀI VIẾT ---
+  const handleXoa = async (id) => {
+    if (window.confirm("Đồng chí có chắc chắn muốn xóa bài viết này?")) {
+      try {
+        await axios.delete(`http://localhost:5000/api/nhuanbut/${id}`);
+        alert("Đã xóa bài viết!");
+        layDuLieu();
+      } catch (error) {
+        alert("Lỗi khi xóa!");
+      }
+    }
+  };
+
+  // --- HÀM CHỌN BÀI ĐỂ SỬA ---
+  const handleChonSua = (bai) => {
+    setIsEditing(bai._id);
+    setFormData({
+      tenBai: bai.tenBai,
+      tacGia: bai.tacGia?._id || "", // Lấy ID tác giả
+      muc: bai.muc || "",
+      tienNhuanBut: bai.tienNhuanBut,
+      soBao: bai.soBao || "",
+      ghiChu: bai.ghiChu || "",
+    });
+  };
+
+  const handleHuySua = () => {
+    setIsEditing(null);
+    setFormData({ tenBai: "", tacGia: "", muc: "", tienNhuanBut: "", soBao: "", ghiChu: "" });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.tacGia) {
-      alert("Vui lòng chọn Tác giả cho bài viết này!");
-      return;
-    }
-
     try {
-      await axios.post("http://localhost:5000/api/nhuanbut/nhap-bai", formData);
-      alert("Đã nhập bài viết thành công!");
-      layDuLieu(); // Cập nhật lại bảng
-      setFormData({ tenBai: "", tacGia: "", muc: "", tienNhuanBut: "", soBao: "", ghiChu: "" });
+      if (isEditing) {
+        await axios.put(`http://localhost:5000/api/nhuanbut/${isEditing}`, formData);
+        alert("Cập nhật bài viết thành công!");
+      } else {
+        await axios.post("http://localhost:5000/api/nhuanbut/nhap-bai", formData);
+        alert("Thêm bài viết thành công!");
+      }
+      handleHuySua();
+      layDuLieu();
     } catch (error) {
-      alert("Có lỗi xảy ra khi lưu bài viết, vui lòng kiểm tra lại!");
-      console.error(error);
+      alert("Có lỗi xảy ra, vui lòng kiểm tra dữ liệu!");
     }
   };
 
   return (
     <div className="nhuanbut-container">
       <div className="form-box">
-        <h3>Nhập Nhuận Bút Bài Viết Mới</h3>
+        <h3 style={{ color: isEditing ? "#2196F3" : "#000" }}>{isEditing ? "🛠️ Sửa Thông Tin Bài Viết" : "Nhập Nhuận Bút Mới"}</h3>
         <form className="form-nhap" onSubmit={handleSubmit}>
-          <input type="text" name="tenBai" value={formData.tenBai} onChange={handleChange} placeholder="Tên bài viết" required style={{ flex: 1, minWidth: "200px" }} />
-
-          {/* Dropdown chọn tác giả từ Database */}
+          <input type="text" name="tenBai" value={formData.tenBai} onChange={handleChange} placeholder="Tên bài" required />
           <select name="tacGia" value={formData.tacGia} onChange={handleChange} required>
             <option value="">-- Chọn Tác Giả --</option>
             {danhSachTacGia.map((tg) => (
               <option key={tg._id} value={tg._id}>
-                {tg.hoTen} ({tg.butDanh || "Không có bút danh"})
+                {tg.hoTen}
               </option>
             ))}
           </select>
+          <input type="number" name="tienNhuanBut" value={formData.tienNhuanBut} onChange={handleChange} placeholder="Số tiền" required />
+          <input type="text" name="soBao" value={formData.soBao} onChange={handleChange} placeholder="Số báo" />
 
-          <input type="text" name="muc" value={formData.muc} onChange={handleChange} placeholder="Mục (VD: Thời sự)" />
-          <input type="number" name="tienNhuanBut" value={formData.tienNhuanBut} onChange={handleChange} placeholder="Tiền nhuận bút (VNĐ)" required />
-          <input type="text" name="soBao" value={formData.soBao} onChange={handleChange} placeholder="Số báo phát hành" />
-          <input type="text" name="ghiChu" value={formData.ghiChu} onChange={handleChange} placeholder="Ghi chú thêm" />
-
-          <button type="submit" className="btn-luu-bai">
-            Lưu Bài Viết
-          </button>
+          <div style={{ display: "flex", gap: "5px" }}>
+            <button type="submit" className="btn-luu-bai">
+              {isEditing ? "Cập Nhật" : "Lưu Bài"}
+            </button>
+            {isEditing && (
+              <button type="button" onClick={handleHuySua} className="btn-luu-bai" style={{ backgroundColor: "#666" }}>
+                Hủy
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
-      <h3>Danh sách Bài viết đã nhập</h3>
-      <table border="1" className="bang-danh-sach">
+      <h3>Danh sách bài viết</h3>
+      <table className="bang-danh-sach">
         <thead>
           <tr>
             <th>Tên Bài</th>
             <th>Tác Giả</th>
-            <th>Mục</th>
-            <th>Tiền Nhuận Bút</th>
+            <th>Tiền</th>
             <th>Số Báo</th>
             <th>Trạng Thái</th>
+            <th>Hành Động</th>
           </tr>
         </thead>
         <tbody>
           {danhSachBaiViet.map((bai) => (
             <tr key={bai._id}>
               <td>{bai.tenBai}</td>
-              {/* Do backend đã dùng hàm populate nên mình có thể lấy thẳng hoTen */}
               <td>{bai.tacGia?.hoTen}</td>
-              <td>{bai.muc}</td>
-              <td>{bai.tienNhuanBut.toLocaleString("vi-VN")} đ</td>
+              <td>{bai.tienNhuanBut.toLocaleString()}đ</td>
               <td>{bai.soBao}</td>
-              <td style={{ color: "#ff9800", fontWeight: "bold" }}>{bai.trangThai}</td>
+              <td style={{ fontSize: "12px" }}>{bai.trangThai}</td>
+              <td>
+                <button onClick={() => handleChonSua(bai)} style={{ marginRight: "5px" }}>
+                  ✏️
+                </button>
+                <button onClick={() => handleXoa(bai._id)} style={{ color: "red" }}>
+                  🗑️
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
