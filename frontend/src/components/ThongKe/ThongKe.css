@@ -31,3 +31,29 @@
   font-weight: bold;
   color: #e91e63;
 }
+
+.btn-excel {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #ffffff;
+  color: #764ba2;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-excel:hover {
+  transform: scale(1.05);
+  background-color: #eee;
+}
+.filter-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}

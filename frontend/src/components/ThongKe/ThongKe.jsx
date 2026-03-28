@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"; // Thêm các thành phần biểu đồ
 import "./ThongKe.css";
 
 function ThongKe() {
@@ -9,10 +10,19 @@ function ThongKe() {
   const [thang, setThang] = useState(new Date().getMonth() + 1);
   const [nam, setNam] = useState(new Date().getFullYear());
 
+  // Mảng màu sắc cho các cột biểu đồ cho sinh động
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d"];
+
   const layThongKe = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/nhuanbut/thong-ke-tong?thang=${thang}&nam=${nam}`);
-      setDataThongKe(res.data);
+      // Chuẩn bị dữ liệu cho biểu đồ (lấy tên và tiền)
+      const formattedData = res.data.map((item) => ({
+        name: item.infoTacGia.butDanh || item.infoTacGia.hoTen,
+        tien: item.tongTien,
+      }));
+      setDataThongKe(formattedData);
+
       const tong = res.data.reduce((acc, item) => acc + item.tongTien, 0);
       setTongToanBo(tong);
     } catch (error) {
@@ -24,24 +34,16 @@ function ThongKe() {
     layThongKe();
   }, [thang, nam]);
 
-  // --- HÀM XUẤT EXCEL THẦN THÁNH ---
   const handleXuatExcel = () => {
-    // 1. Chuẩn bị dữ liệu để đưa vào file Excel
     const dataExcel = dataThongKe.map((item, index) => ({
       STT: index + 1,
-      "Họ và Tên": item.infoTacGia.hoTen,
-      "Bút Danh": item.infoTacGia.butDanh,
-      "Số lượng bài": item.soBai,
-      "Tổng Nhuận Bút (VNĐ)": item.tongTien,
+      "Tác giả": item.name,
+      "Tổng Nhuận Bút (VNĐ)": item.tien,
     }));
-
-    // 2. Tạo một bảng tính (Workbook)
     const worksheet = XLSX.utils.json_to_sheet(dataExcel);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "BaoCaoNhuanBut");
-
-    // 3. Tải file về máy với tên file theo Tháng/Năm
-    XLSX.writeFile(workbook, `Bao-Cao-Nhuan-But-Thang-${thang}-${nam}.xlsx`);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "BaoCao");
+    XLSX.writeFile(workbook, `Bao-Cao-${thang}-${nam}.xlsx`);
   };
 
   return (
@@ -50,15 +52,34 @@ function ThongKe() {
         <h2>
           TỔNG CHI NHUẬN BÚT THÁNG {thang}/{nam}
         </h2>
-        <h1 style={{ fontSize: "3rem" }}>{tongToanBo.toLocaleString()} VNĐ</h1>
-
-        {/* Nút bấm Xuất Excel */}
-        <button onClick={handleXuatExcel} style={{ padding: "10px 20px", backgroundColor: "#2e7d32", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>
+        <h1 style={{ fontSize: "2.5rem" }}>{tongToanBo.toLocaleString()} VNĐ</h1>
+        <button onClick={handleXuatExcel} className="btn-excel">
           📥 Xuất Báo Cáo Excel
         </button>
       </div>
 
-      <div style={{ marginBottom: "20px", display: "flex", gap: "10px", justifyContent: "center" }}>
+      {/* --- KHU VỰC BIỂU ĐỒ --- */}
+      <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>
+        <h3 style={{ textAlign: "center", color: "#333" }}>Biểu đồ Nhuận bút theo Tác giả</h3>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <BarChart data={dataThongKe}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="name" />
+              <YAxis tickFormatter={(value) => `${value / 1000}k`} />
+              <Tooltip formatter={(value) => value.toLocaleString() + " VNĐ"} />
+              <Bar dataKey="tien" radius={[5, 5, 0, 0]}>
+                {dataThongKe.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Bộ lọc tháng năm */}
+      <div className="filter-box">
         <label>Tháng: </label>
         <select value={thang} onChange={(e) => setThang(e.target.value)}>
           {[...Array(12)].map((_, i) => (
@@ -67,29 +88,26 @@ function ThongKe() {
             </option>
           ))}
         </select>
-        <label>Năm: </label>
+        <label> Năm: </label>
         <select value={nam} onChange={(e) => setNam(e.target.value)}>
           <option value="2026">2026</option>
           <option value="2025">2025</option>
         </select>
       </div>
 
+      {/* Bảng chi tiết vẫn giữ nguyên bên dưới */}
       <table className="bang-thongke">
         <thead>
           <tr>
-            <th>Họ Tên</th>
-            <th>Bút Danh</th>
-            <th>Số bài</th>
+            <th>Tác giả</th>
             <th>Tổng Tiền</th>
           </tr>
         </thead>
         <tbody>
-          {dataThongKe.map((item) => (
-            <tr key={item._id}>
-              <td>{item.infoTacGia.hoTen}</td>
-              <td>{item.infoTacGia.butDanh}</td>
-              <td>{item.soBai}</td>
-              <td className="money">{item.tongTien.toLocaleString()} đ</td>
+          {dataThongKe.map((item, idx) => (
+            <tr key={idx}>
+              <td>{item.name}</td>
+              <td className="money">{item.tien.toLocaleString()} đ</td>
             </tr>
           ))}
         </tbody>
