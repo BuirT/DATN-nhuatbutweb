@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify"; // Nhúng động cơ thông báo
 import "./TacGia.css";
 
 function TacGia() {
   const [danhSachTacGia, setDanhSachTacGia] = useState([]);
-  const [isEditing, setIsEditing] = useState(null); // Lưu ID nếu đang sửa, null nếu đang thêm mới
+  const [isEditing, setIsEditing] = useState(null);
 
   const [formData, setFormData] = useState({
     maTacGia: "",
@@ -15,7 +16,6 @@ function TacGia() {
     dienThoai: "",
   });
 
-  // 1. Hàm lấy danh sách từ Backend
   const layDuLieu = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/tacgia/danh-sach");
@@ -29,27 +29,24 @@ function TacGia() {
     layDuLieu();
   }, []);
 
-  // 2. Hàm xử lý thay đổi ô nhập liệu
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 3. Hàm Xóa Tác Giả
   const handleXoa = async (id) => {
     if (window.confirm("Đồng chí có chắc chắn muốn xóa tác giả này không?")) {
       try {
         await axios.delete(`http://localhost:5000/api/tacgia/${id}`);
-        alert("Đã xóa thành công!");
+        toast.success("Đã xóa tác giả thành công! 🗑️"); // Thay alert bằng toast
         layDuLieu();
       } catch (error) {
-        alert("Lỗi khi xóa tác giả!");
+        toast.error("Lỗi khi xóa tác giả! ❌");
       }
     }
   };
 
-  // 4. Hàm chọn Tác Giả để Sửa
   const handleChonSua = (tacGia) => {
-    setIsEditing(tacGia._id); // Chốt ID đang sửa
+    setIsEditing(tacGia._id);
     setFormData({
       maTacGia: tacGia.maTacGia,
       hoTen: tacGia.hoTen,
@@ -60,36 +57,30 @@ function TacGia() {
     });
   };
 
-  // 5. Hàm Hủy chế độ sửa
   const handleHuySua = () => {
     setIsEditing(null);
     setFormData({ maTacGia: "", hoTen: "", butDanh: "", loaiTacGia: "CTV", khuVuc: "TP.HCM", dienThoai: "" });
   };
 
-  // 6. Hàm Gửi dữ liệu (Thêm hoặc Cập nhật)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (isEditing) {
-        // Nếu đang sửa -> Gọi API cập nhật (PUT)
         await axios.put(`http://localhost:5000/api/tacgia/${isEditing}`, formData);
-        alert("Cập nhật thông tin thành công!");
+        toast.success("Cập nhật thông tin thành công! ✨"); // Thay alert bằng toast
       } else {
-        // Nếu không -> Gọi API thêm mới (POST)
         await axios.post("http://localhost:5000/api/tacgia/them", formData);
-        alert("Đã thêm Tác giả thành công!");
+        toast.success("Đã thêm Tác giả mới thành công! 🎉"); // Thay alert bằng toast
       }
-
-      handleHuySua(); // Reset form và thoát chế độ sửa
-      layDuLieu(); // Tải lại bảng
+      handleHuySua();
+      layDuLieu();
     } catch (error) {
-      alert("Lỗi thao tác! Vui lòng kiểm tra lại Mã Tác Giả.");
+      toast.error("Lỗi thao tác! Vui lòng kiểm tra lại Mã Tác Giả. ⚠️");
     }
   };
 
   return (
     <div className="tacgia-container">
-      {/* KHU VỰC BIỂU MẪU */}
       <div className="form-box">
         <h3 style={{ color: isEditing ? "#2196F3" : "#4CAF50" }}>{isEditing ? "🛠️ Cập Nhật Thông Tin Tác Giả" : "➕ Thêm Tác Giả / Phóng Viên Mới"}</h3>
         <form className="form-nhap" onSubmit={handleSubmit}>
@@ -115,7 +106,6 @@ function TacGia() {
         </form>
       </div>
 
-      {/* KHU VỰC BẢNG DỮ LIỆU */}
       <h3>Danh sách Tác giả / Phóng viên</h3>
       <table border="1" className="bang-danh-sach">
         <thead>

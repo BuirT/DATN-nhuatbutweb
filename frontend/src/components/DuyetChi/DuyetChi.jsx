@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./DuyetChi.css";
@@ -29,11 +30,11 @@ function DuyetChi() {
       await axios.put(`http://localhost:5000/api/duyetchi/duyet-bai/${id}`, {
         trangThai: "Đã duyệt",
       });
-      alert("Đã duyệt thành công!");
+      toast.success("Đã duyệt chi thành công! Tiền đã xuất kho 💸");
       layDuLieu(); // Cập nhật lại bảng
     } catch (error) {
       console.error("Lỗi khi duyệt:", error);
-      alert("Có lỗi xảy ra!");
+      toast.error("Có lỗi xảy ra, không thể duyệt bài!");
     }
   };
 

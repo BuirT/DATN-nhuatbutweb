@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import TacGia from "./components/TacGia/TacGia";
@@ -11,13 +13,12 @@ function App() {
   // 1. Kiểm tra trạng thái đăng nhập từ thẻ nhớ trình duyệt
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
-  // 2. Đưa Thông tin user vào State để giao diện cập nhật mượt mà, không bị giật lag
+  // 2. Đưa Thông tin user vào State để giao diện cập nhật mượt mà
   const [vaiTro, setVaiTro] = useState(localStorage.getItem("vaiTro") || "");
   const [hoTen, setHoTen] = useState(localStorage.getItem("hoTen") || "");
 
   // Hàm mở cửa (gọi khi đăng nhập thành công)
   const handleLoginSuccess = () => {
-    // Cập nhật lại thông tin mới nhất vừa được lưu vào bộ nhớ
     setVaiTro(localStorage.getItem("vaiTro") || "");
     setHoTen(localStorage.getItem("hoTen") || "");
     setIsLoggedIn(true);
@@ -25,15 +26,13 @@ function App() {
 
   // Hàm Đăng xuất
   const handleLogout = () => {
-    // Xóa sạch dữ liệu
     localStorage.removeItem("token");
     localStorage.removeItem("hoTen");
     localStorage.removeItem("vaiTro");
 
-    // Reset lại State
     setVaiTro("");
     setHoTen("");
-    setIsLoggedIn(false); // Đóng cửa lại
+    setIsLoggedIn(false);
   };
 
   // NẾU CHƯA ĐĂNG NHẬP -> CHỈ HIỆN MÀN HÌNH KHÓA (LOGIN)
@@ -44,6 +43,9 @@ function App() {
   // NẾU ĐÃ ĐĂNG NHẬP -> HIỆN ĐẦY ĐỦ GIAO DIỆN
   return (
     <Router>
+      {/* TRẠM PHÁT THÔNG BÁO CHO TOÀN BỘ HỆ THỐNG */}
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
+
       <div>
         {/* --- THANH MENU ĐIỀU HƯỚNG --- */}
         <nav className="navbar">

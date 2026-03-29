@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify"; // Nhúng động cơ thông báo
 import "./NhuanBut.css";
 
 function NhuanBut() {
   const [danhSachBaiViet, setDanhSachBaiViet] = useState([]);
   const [danhSachTacGia, setDanhSachTacGia] = useState([]);
-  const [isEditing, setIsEditing] = useState(null); // Lưu ID bài viết đang sửa
+  const [isEditing, setIsEditing] = useState(null);
 
   const [formData, setFormData] = useState({
     tenBai: "",
@@ -35,25 +36,23 @@ function NhuanBut() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- HÀM XÓA BÀI VIẾT ---
   const handleXoa = async (id) => {
     if (window.confirm("Đồng chí có chắc chắn muốn xóa bài viết này?")) {
       try {
         await axios.delete(`http://localhost:5000/api/nhuanbut/${id}`);
-        alert("Đã xóa bài viết!");
+        toast.success("Đã xóa bài viết khỏi hệ thống! 🗑️"); // Thay alert bằng toast
         layDuLieu();
       } catch (error) {
-        alert("Lỗi khi xóa!");
+        toast.error("Lỗi khi xóa bài viết! ❌");
       }
     }
   };
 
-  // --- HÀM CHỌN BÀI ĐỂ SỬA ---
   const handleChonSua = (bai) => {
     setIsEditing(bai._id);
     setFormData({
       tenBai: bai.tenBai,
-      tacGia: bai.tacGia?._id || "", // Lấy ID tác giả
+      tacGia: bai.tacGia?._id || "",
       muc: bai.muc || "",
       tienNhuanBut: bai.tienNhuanBut,
       soBao: bai.soBao || "",
@@ -71,15 +70,15 @@ function NhuanBut() {
     try {
       if (isEditing) {
         await axios.put(`http://localhost:5000/api/nhuanbut/${isEditing}`, formData);
-        alert("Cập nhật bài viết thành công!");
+        toast.success("Cập nhật bài viết thành công! ✨"); // Thay alert bằng toast
       } else {
         await axios.post("http://localhost:5000/api/nhuanbut/nhap-bai", formData);
-        alert("Thêm bài viết thành công!");
+        toast.success("Thêm bài viết mới thành công! 📝"); // Thay alert bằng toast
       }
       handleHuySua();
       layDuLieu();
     } catch (error) {
-      alert("Có lỗi xảy ra, vui lòng kiểm tra dữ liệu!");
+      toast.error("Có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu! ⚠️");
     }
   };
 
