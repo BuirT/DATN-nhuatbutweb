@@ -14,7 +14,7 @@ const tinhTien = (tienGoc) => {
 // 1. LẤY DANH SÁCH BÀI VIẾT (Kèm thông tin tác giả)
 router.get("/danh-sach", async (req, res) => {
   try {
-    const danhSach = await NhuanBut.find().populate("tacGia", "hoTen maTacGia").sort({ createdAt: -1 });
+    const danhSach = await NhuanBut.find().populate("tacGia", "hoTen maTacGia khuVuc").sort({ createdAt: -1 });
     res.json(danhSach);
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy danh sách nhuận bút" });
