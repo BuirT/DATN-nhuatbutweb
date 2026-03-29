@@ -45,11 +45,11 @@ router.post("/dang-nhap", async (req, res) => {
     const isMatch = await bcrypt.compare(matKhau, user.matKhau);
     if (!isMatch) return res.status(400).json({ message: "Sai tên tài khoản hoặc mật khẩu!" });
 
-    // Tạo vé thông hành (Token) có hạn dùng 1 ngày
+    // Tạo vé thông hành (Token) có hạn dùng 1
     const token = jwt.sign(
       { id: user._id, vaiTro: user.vaiTro, hoTen: user.hoTen },
-      "BiMatCuaToaSoan_DOAN_TOT_NGHIEP", // Chìa khóa bí mật
-      { expiresIn: "1d" },
+      "process.env.JWT_SECRET", // Chìa khóa bí mật
+      { expiresIn: "5m" },
     );
 
     res.status(200).json({
