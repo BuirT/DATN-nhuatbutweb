@@ -14,7 +14,7 @@ Mỗi lần code xong, dùng 3 lệnh này để lưu code lại và chia sẻ c
 `git commit -m "lời nhắn của bạn"`
 `git push origin <tên-nhánh>`
 
-Muốn cập nhật code mới nhất thì nhập lệnh: git pull origin main.
+Muốn cập nhật code mới nhất thì nhập lệnh: `git pull origin main`
 
 ---
 
