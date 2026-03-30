@@ -9,75 +9,62 @@ import ThongKe from "./components/ThongKe/ThongKe";
 import Login from "./components/Login/Login";
 import SoBao from "./components/SoBao/SoBao";
 import PhieuChi from "./components/PhieuChi/PhieuChi";
+import TaiKhoan from "./components/TaiKhoan/TaiKhoan"; 
 import "./App.css";
 
 function App() {
-  // 1. Kiểm tra trạng thái đăng nhập từ thẻ nhớ trình duyệt
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
-  // 2. Đưa Thông tin user vào State để giao diện cập nhật mượt mà
   const [vaiTro, setVaiTro] = useState(localStorage.getItem("vaiTro") || "");
   const [hoTen, setHoTen] = useState(localStorage.getItem("hoTen") || "");
 
-  // Hàm mở cửa (gọi khi đăng nhập thành công)
   const handleLoginSuccess = () => {
     setVaiTro(localStorage.getItem("vaiTro") || "");
     setHoTen(localStorage.getItem("hoTen") || "");
     setIsLoggedIn(true);
   };
 
-  // Hàm Đăng xuất
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("hoTen");
     localStorage.removeItem("vaiTro");
-
     setVaiTro("");
     setHoTen("");
     setIsLoggedIn(false);
   };
 
-  // NẾU CHƯA ĐĂNG NHẬP -> CHỈ HIỆN MÀN HÌNH KHÓA (LOGIN)
   if (!isLoggedIn) {
     return <Login onLogin={handleLoginSuccess} />;
   }
 
-  // NẾU ĐÃ ĐĂNG NHẬP -> HIỆN ĐẦY ĐỦ GIAO DIỆN
   return (
     <Router>
-      {/* TRẠM PHÁT THÔNG BÁO CHO TOÀN BỘ HỆ THỐNG */}
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
       <div>
-        {/* --- THANH MENU ĐIỀU HƯỚNG --- */}
         <nav className="navbar">
           <h1 className="logo">TÒA SOẠN BÁO</h1>
 
           <ul className="nav-links" style={{ width: "100%", display: "flex", alignItems: "center" }}>
-            <li>
-              <Link to="/">Báo Cáo Thống Kê</Link>
-            </li>
-            <li>
-              <Link to="/tac-gia">Quản lý Tác Giả</Link>
-            </li>
-            <li>
-              <Link to="/so-bao">Quản lý Số Báo</Link>
-            </li>
-            <li>
-              <Link to="/nhuan-but">Quản lý Nhuận Bút</Link>
-            </li>
-            <li>
-              <Link to="/phieu-chi">Kế Toán Xuất Phiếu</Link>
-            </li>
+            <li><Link to="/">Báo Cáo Thống Kê</Link></li>
+            <li><Link to="/tac-gia">Quản lý Tác Giả</Link></li>
+            <li><Link to="/so-bao">Quản lý Số Báo</Link></li>
+            <li><Link to="/nhuan-but">Quản lý Nhuận Bút</Link></li>
+            <li><Link to="/phieu-chi">Kế Toán Xuất Phiếu</Link></li>
 
-            {/* TÍNH NĂNG PHÂN QUYỀN: Chỉ Lãnh đạo mới thấy nút này */}
+            {/* --- PHÂN QUYỀN ADMIN: Chỉ Admin mới thấy nút này --- */}
+            {vaiTro === "Admin" && (
+              <li>
+                <Link to="/quan-ly-tai-khoan">Quản Lý Tài Khoản</Link>
+              </li>
+            )}
+
+            {/* --- PHÂN QUYỀN LÃNH ĐẠO: Chỉ Lãnh đạo mới thấy nút này --- */}
             {vaiTro === "Lãnh đạo" && (
               <li>
                 <Link to="/duyet-chi">Lãnh Đạo Duyệt</Link>
               </li>
             )}
 
-            {/* Khu vực Thông tin user & Nút Đăng xuất */}
             <li style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "15px" }}>
               <span style={{ color: "#ffeb3b", fontSize: "14px" }}>
                 👤 {vaiTro}: <strong>{hoTen}</strong>
@@ -89,7 +76,6 @@ function App() {
           </ul>
         </nav>
 
-        {/* --- KHU VỰC HIỂN THỊ NỘI DUNG TƯƠNG ỨNG VỚI MENU --- */}
         <div className="main-content">
           <Routes>
             <Route path="/" element={<ThongKe />} />
@@ -97,11 +83,17 @@ function App() {
             <Route path="/so-bao" element={<SoBao />} />
             <Route path="/nhuan-but" element={<NhuanBut />} />
             <Route path="/phieu-chi" element={<PhieuChi />} />
+            
+            {/* --- BẢO MẬT ĐƯỜNG DẪN ADMIN --- */}
+            {vaiTro === "Admin" && (
+              <Route path="/quan-ly-tai-khoan" element={<TaiKhoan />} />
+            )}
 
-            {/* TÍNH NĂNG PHÂN QUYỀN: Chỉ Lãnh đạo mới vào được đường dẫn này */}
-            {vaiTro === "Lãnh đạo" && <Route path="/duyet-chi" element={<DuyetChi />} />}
+            {/* --- BẢO MẬT ĐƯỜNG DẪN LÃNH ĐẠO --- */}
+            {vaiTro === "Lãnh đạo" && (
+              <Route path="/duyet-chi" element={<DuyetChi />} />
+            )}
 
-            {/* Bắt lỗi: Nếu gõ link bậy bạ hoặc Thư ký cố tình gõ link /duyet-chi -> Đẩy về trang chủ */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

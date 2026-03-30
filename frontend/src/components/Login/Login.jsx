@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify"; // Import bộ thông báo mới
-import "react-toastify/dist/ReactToastify.css"; // Import CSS để nó đẹp sẵn
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
 
 function Login({ onLogin }) {
@@ -10,7 +10,7 @@ function Login({ onLogin }) {
     taiKhoan: "",
     matKhau: "",
     hoTen: "",
-    vaiTro: "Lãnh đạo",
+    vaiTro: "Thư ký", // Chỉnh mặc định là Thư ký cho an toàn
   });
 
   const handleChange = (e) => {
@@ -21,41 +21,47 @@ function Login({ onLogin }) {
     e.preventDefault();
     try {
       if (isRegister) {
-        await axios.post("http://localhost:5000/api/auth/dang-ky", formData);
+        // --- LUỒNG ĐĂNG KÝ ---
+        await axios.post("http://localhost:5000/api/users/them", {
+          username: formData.taiKhoan, 
+          password: formData.matKhau,
+          hoTen: formData.hoTen,
+          vaiTro: formData.vaiTro
+        });
 
-        // --- THÔNG BÁO TẠO TÀI KHOẢN (Trượt góc màn hình) ---
         toast.success("Hệ thống đã ghi nhận. Vui lòng đăng nhập để tiếp tục!", {
           position: "top-right",
           autoClose: 3000,
           theme: "colored",
         });
 
-        setIsRegister(false);
+        setIsRegister(false); 
       } else {
-        const res = await axios.post("http://localhost:5000/api/auth/dang-nhap", {
-          taiKhoan: formData.taiKhoan,
-          matKhau: formData.matKhau,
+        // --- LUỒNG ĐĂNG NHẬP ---
+        const res = await axios.post("http://localhost:5000/api/auth/login", {
+          username: formData.taiKhoan, 
+          password: formData.matKhau   
         });
 
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("hoTen", res.data.user.hoTen);
-        localStorage.setItem("vaiTro", res.data.user.vaiTro);
+        localStorage.setItem("hoTen", res.data.hoTen);
+        localStorage.setItem("vaiTro", res.data.vaiTro);
 
-        // --- THÔNG BÁO ĐĂNG NHẬP THÀNH CÔNG ---
-        toast.success(`Hệ thống xin chào ${res.data.user.vaiTro} ${res.data.user.hoTen}!`, {
+        toast.success(`Hệ thống xin chào ${res.data.vaiTro} ${res.data.hoTen}!`, {
           position: "top-right",
           autoClose: 2000,
           theme: "colored",
         });
 
-        // Đợi 2 giây cho thông báo chạy xong rồi mới chuyển trang cho mượt
         setTimeout(() => {
           onLogin();
         }, 1000);
       }
     } catch (error) {
-      // --- THÔNG BÁO LỖI HIỆN MÀU ĐỎ ---
-      toast.error(error.response?.data?.message || "Thông tin không chính xác, vui lòng thử lại!", {
+      // Đã nâng cấp: In lỗi chi tiết ra màn hình đen (Console F12) để dễ bắt bệnh
+      console.error("🚨 Báo cáo lỗi từ Backend:", error.response?.data || error.message);
+      
+      toast.error(error.response?.data?.message || "Lỗi Server: Không thể kết nối với dữ liệu!", {
         position: "top-right",
         autoClose: 3000,
         theme: "colored",
@@ -65,7 +71,6 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      {/* Cái này là điểm neo để hộp thông báo biết chỗ mà trượt ra */}
       <ToastContainer />
 
       <div className="login-box">
@@ -79,8 +84,10 @@ function Login({ onLogin }) {
               </div>
               <div className="form-group">
                 <select name="vaiTro" value={formData.vaiTro} onChange={handleChange}>
+                  <option value="Thư ký">Thư ký / Nhập liệu</option>
+                  <option value="Kế Toán">Kế Toán</option>
                   <option value="Lãnh đạo">Lãnh đạo (Duyệt chi)</option>
-                  <option value="Thư ký">Thư ký (Nhập liệu)</option>
+                  <option value="Admin">Admin (Quản Trị)</option>
                 </select>
               </div>
             </>
@@ -100,7 +107,9 @@ function Login({ onLogin }) {
 
         <p className="toggle-text">
           {isRegister ? "Đã có tài khoản?" : "Chưa có tài khoản?"}
-          <span onClick={() => setIsRegister(!isRegister)}>{isRegister ? "Đăng nhập ngay" : "Tạo tài khoản"}</span>
+          <span onClick={() => setIsRegister(!isRegister)}>
+            {isRegister ? " Đăng nhập ngay" : " Tạo tài khoản"}
+          </span>
         </p>
       </div>
     </div>

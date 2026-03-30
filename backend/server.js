@@ -39,9 +39,10 @@ app.use("/api/tacgia", tacGiaRoute);
 app.use("/api/nhuanbut", nhuanButRoute);
 app.use("/api/duyetchi", duyetChiRoute);
 app.use("/api/thongke", thongKeRoute);
-app.use("/api/auth", authRoute);
 app.use("/api/sobao", soBaoRoute);
 app.use("/api/phieuchi", phieuChiRoute);
+app.use("/api/users", require("./routes/userRoute"));
+app.use("/api/auth", require("./routes/authRoute"));
 
 // Thêm route kiểm tra nhanh cho đồng chí
 app.get("/", (req, res) => {

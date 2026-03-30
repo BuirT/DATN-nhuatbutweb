@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
 
-const taiKhoanSchema = new mongoose.Schema(
-  {
-    taiKhoan: { type: String, required: true, unique: true }, // Tên đăng nhập không được trùng
-    matKhau: { type: String, required: true }, // Mật khẩu (sẽ được mã hóa)
-    hoTen: { type: String, required: true }, // Tên người dùng (VD: Nguyễn Văn A)
-    vaiTro: { type: String, default: "Thư ký" }, // Phân quyền
-  },
-  { timestamps: true },
-);
+const taiKhoanSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  hoTen: { type: String, required: true },
+  vaiTro: { type: String, required: true, default: "Nhập Liệu" }
+}, { timestamps: true });
 
-module.exports = mongoose.model("TaiKhoan", taiKhoanSchema);
+// Thanh đã thêm tham số thứ 3 ("DanhSachTaiKhoan") để ép MongoDB tạo một bảng hoàn toàn mới, sạch sẽ 100%!
+module.exports = mongoose.model("TaiKhoan", taiKhoanSchema, "DanhSachTaiKhoan");

@@ -1,0 +1,181 @@
+/* --- TRANG QUẢN LÝ TÀI KHOẢN ADMIN --- */
+.quanly-taikhoan-container {
+  padding: 20px;
+  color: #e2e8f0;
+}
+
+/* --- KHU VỰC FORM NHẬP LIỆU --- */
+.tk-form-box {
+  background: linear-gradient(145deg, #121827 0%, #0f172a 100%);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.tk-title {
+  color: #38bdf8;
+  border-left: 4px solid #38bdf8;
+  padding-left: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.tk-form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.tk-input, .tk-select {
+  flex: 1;
+  padding: 12px 15px;
+  background-color: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.tk-input:focus, .tk-select:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  background-color: #0f172a;
+}
+
+.tk-input:disabled {
+  background-color: #334155;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Nút bấm form */
+.tk-btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tk-btn-submit {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.tk-btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.tk-btn-cancel {
+  background-color: #64748b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.tk-btn-cancel:hover {
+  background-color: #475569;
+}
+
+/* --- KHU VỰC BẢNG DANH SÁCH --- */
+.tk-table-wrapper {
+  overflow-x: auto;
+  background-color: #121827;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tk-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tk-table th {
+  background-color: #1e293b;
+  color: #94a3b8;
+  padding: 16px 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tk-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.tk-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.tk-username {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* --- BADGE PHÂN QUYỀN (Huy hiệu) --- */
+.tk-badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.tk-badge-admin {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.tk-badge-lanhdao {
+  background-color: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.tk-badge-ketoan {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.tk-badge-nhaplieu {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Nút thao tác trong bảng */
+.tk-action-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: transform 0.2s;
+}
+
+.tk-action-btn:hover {
+  transform: scale(1.2);
+}

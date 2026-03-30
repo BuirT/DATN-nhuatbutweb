@@ -1,64 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs"); // Thư viện băm nát mật khẩu
-const jwt = require("jsonwebtoken"); // Thư viện tạo vé thông hành
+const bcrypt = require("bcrypt"); // Dùng bcrypt đồng bộ với userRoute
+const jwt = require("jsonwebtoken"); 
 const TaiKhoan = require("../models/TaiKhoan");
 
-// 1. API ĐĂNG KÝ (Chỉ dùng để tạo tài khoản ban đầu)
-router.post("/dang-ky", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const { taiKhoan, matKhau, hoTen, vaiTro } = req.body;
+    const { username, password } = req.body;
 
-    // Kiểm tra xem tài khoản có ai đăng ký chưa
-    const tkTonTai = await TaiKhoan.findOne({ taiKhoan });
-    if (tkTonTai) return res.status(400).json({ message: "Tên tài khoản này đã có người sử dụng!" });
+    // 1. Tìm tài khoản
+    const user = await TaiKhoan.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: "Sai tên đăng nhập hoặc mật khẩu!" });
+    }
 
-    // Thuật toán băm nát mật khẩu (Mã hóa)
-    const salt = await bcrypt.genSalt(10);
-    const hashedMatKhau = await bcrypt.hash(matKhau, salt);
+    // 2. So sánh mật khẩu (Dùng bcrypt chuẩn)
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Sai tên đăng nhập hoặc mật khẩu!" });
+    }
 
-    // Lưu vào Database
-    const tkMoi = new TaiKhoan({
-      taiKhoan,
-      matKhau: hashedMatKhau,
-      hoTen,
-      vaiTro: vaiTro || "Thư ký",
-    });
-
-    await tkMoi.save();
-    res.status(201).json({ message: "Tạo tài khoản thành công!" });
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi hệ thống!", error: error.message });
-  }
-});
-
-// 2. API ĐĂNG NHẬP
-router.post("/dang-nhap", async (req, res) => {
-  try {
-    const { taiKhoan, matKhau } = req.body;
-
-    // Tìm trong Database xem có tài khoản này không
-    const user = await TaiKhoan.findOne({ taiKhoan });
-    if (!user) return res.status(400).json({ message: "Sai tên tài khoản hoặc mật khẩu!" });
-
-    // Đem mật khẩu người dùng gõ vào so sánh với mật khẩu đã mã hóa trong DB
-    const isMatch = await bcrypt.compare(matKhau, user.matKhau);
-    if (!isMatch) return res.status(400).json({ message: "Sai tên tài khoản hoặc mật khẩu!" });
-
-    // Tạo vé thông hành (Token) có hạn dùng 5 phút
+    // 3. Cấp vé thông hành (Token)
     const token = jwt.sign(
       { id: user._id, vaiTro: user.vaiTro, hoTen: user.hoTen },
-      "process.env.JWT_SECRET", // Chìa khóa bí mật
-      { expiresIn: "5m" },
+      "ToaSoanBao@SecretKey2026",
+      { expiresIn: "1d" }
     );
 
     res.status(200).json({
       message: "Đăng nhập thành công!",
-      token,
-      user: { hoTen: user.hoTen, vaiTro: user.vaiTro },
+      token: token,
+      hoTen: user.hoTen,
+      vaiTro: user.vaiTro
     });
+
   } catch (error) {
-    res.status(500).json({ message: "Lỗi hệ thống!", error: error.message });
+    console.error("Lỗi đăng nhập:", error);
+    res.status(500).json({ message: "Lỗi Server!" });
   }
 });
 
