@@ -105,7 +105,7 @@ function SoBao() {
         </form>
       </div>
 
-      <h3>Danh sách Các Kỳ Báo Đã Phát Hành</h3>
+      <h3 style={{ color: "#e2e8f0", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "10px", marginTop: "30px", marginBottom: "20px" }}>Danh sách Các Kỳ Báo Đã Phát Hành</h3>
       <table className="bang-danh-sach">
         <thead>
           <tr>
