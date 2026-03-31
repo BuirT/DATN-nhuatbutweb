@@ -3,5 +3,27 @@
     "chart.js": "^4.5.1",
     "lucide-react": "^1.7.0",
     "react-chartjs-2": "^5.3.1"
+  },
+  "name": "datn-nhuatbutweb",
+  "version": "1.0.0",
+  "description": "Luôn luôn đọc README.md để tạo thói quen theo dõi tiến độ.\r Đọc README.md để cập nhật thêm kiến thức bổ ích.\r Đọc README.md để hiểu đồ án đang viết cái gì và làm tới đâu.\r Có đọc thì có viết.\r Viết README.md để người khác biết mình cần thông báo cái gì, những thứ gì cần chú ý.\r Viết README.md để người khác biết đồ án có cái gì.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BuirT/DATN-nhuatbutweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BuirT/DATN-nhuatbutweb/issues"
+  },
+  "homepage": "https://github.com/BuirT/DATN-nhuatbutweb#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
