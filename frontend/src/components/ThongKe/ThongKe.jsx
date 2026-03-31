@@ -147,7 +147,6 @@ function ThongKe() {
       <div className="thongke-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
           <h2 className="thongke-title">📊 BÁO CÁO TOÀN CẢNH TÒA SOẠN</h2>
-          <p style={{ color: "#94a3b8", margin: "5px 0 0 0" }}>Số liệu cập nhật theo thời gian thực (Real-time)</p>
         </div>
 
         {/* 👉 KHU VỰC HIỂN THỊ ĐỒNG HỒ */}
