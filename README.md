@@ -54,25 +54,6 @@ Hệ thống web ứng dụng quản lý quy trình chấm và chi trả nhuận
 3. Chạy giao diện web: `npm run dev`
    _(Trình duyệt sẽ tự động mở tại http://localhost:5173)_
 
-## 🔑 Tài Khoản Kiểm Thử (Dành cho Giảng viên chấm thi)
-
-Hệ thống cung cấp sẵn 2 cấp độ phân quyền để test thử:
-
-**1. Tài khoản Lãnh đạo (Toàn quyền quản trị & Duyệt chi):**
-
-- Tài khoản: `admin`
-- Mật khẩu: `123456`
-
-**2. Tài khoản Thư ký (Chỉ nhập liệu, không được duyệt tiền):**
-
-- Tài khoản: `thuky1`
-- Mật khẩu: `123456`
-  _(Lưu ý: Bạn có thể tự tạo tài khoản mới ngay trên giao diện Đăng ký của hệ thống)._
-
----
-
-_Đồ án tốt nghiệp được thực hiện và phát triển với tâm huyết._
-
 # Cách mời bạn bè vào chung kho code
 
 Để bạn anh có quyền đẩy code lên, anh cần mời họ vào dự án:
