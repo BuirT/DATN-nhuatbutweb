@@ -249,7 +249,12 @@ function NhuanBut() {
                   <td className="td-money-warn">{tienThue > 0 ? `-${tienThue.toLocaleString()}đ` : "0đ"}</td>
                   <td className="td-money-ok">{tienThuc.toLocaleString()}đ</td>
                   <td>
-                    <span className={bai.trangThai === "Đã duyệt" || bai.trangThai === "Đã thanh toán" ? "badge-xong" : "badge-cho"}>{bai.trangThai || "Chờ duyệt"}</span>
+                    {/* 👉 ĐÃ CẬP NHẬT LOGIC 4 BƯỚC MÀU SẮC */}
+                    <span
+                      className={bai.trangThai === "Đã thanh toán" ? "badge-thanhtoan" : bai.trangThai === "Đã duyệt" ? "badge-xong" : bai.trangThai === "Trình Lãnh Đạo" ? "badge-trinh" : "badge-cho"}
+                    >
+                      {bai.trangThai || "Chờ duyệt"}
+                    </span>
                   </td>
                   <td>
                     <button type="button" onClick={() => handleChonSua(bai)} title="Sửa bài">

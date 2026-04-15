@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "./PhieuChi.css"; // ĐÃ GỌI FILE CSS MỚI VÀO ĐÂY
+import "./PhieuChi.css";
 
 const danhSachTinhThanh = [
   "An Giang",
@@ -102,7 +102,7 @@ function PhieuChi() {
     layDuLieu();
   }, []);
 
-  // --- Gom nhóm theo tác giả; tổng thuế / thực lãnh = cộng dồn theo từng bài (đồng bộ với backend & Cấu hình thuế) ---
+  // --- Gom nhóm theo tác giả ---
   useEffect(() => {
     let dataLoc = danhSachBaiViet.filter((bai) => (tabHienTai === "ChoTrinhDuyet" ? bai.trangThai === "Chờ duyệt" || !bai.trangThai : bai.trangThai === "Đã duyệt"));
 
@@ -127,11 +127,7 @@ function PhieuChi() {
     const finalData = Object.values(groupedData).map((nhom) => {
       const tongThue = nhom.danhSachBai.reduce((s, b) => s + (Number(b.thue) || 0), 0);
       const tongThucLanh = nhom.danhSachBai.reduce((s, b) => s + (Number(b.thucLanh) || 0), 0);
-      return {
-        ...nhom,
-        tongThue,
-        tongThucLanh,
-      };
+      return { ...nhom, tongThue, tongThucLanh };
     });
 
     setDanhSachGom(finalData);
@@ -160,9 +156,22 @@ function PhieuChi() {
     }
   };
 
+  // 👉 HÀM QUAN TRỌNG: CẬP NHẬT TRẠNG THÁI VÀ HÌNH THỨC CHI XUỐNG TỪNG BÀI VIẾT
   const handleXuatPhieu = async (e) => {
     e.preventDefault();
     try {
+      // BƯỚC 1: Cập nhật Trạng thái và "hinhThucChi" (CK hay TM) vào từng Bài Viết
+      await Promise.all(
+        isLapping.danhSachBai.map((bai) =>
+          axios.put(`http://localhost:5000/api/nhuanbut/${bai._id}`, {
+            trangThai: "Đã thanh toán",
+            hinhThucChi: formData.hinhThuc, // Truyền thông tin CK/TM xuống DB Bài Viết
+            nguoiThaoTac: tenNguoiDung,
+          }),
+        ),
+      );
+
+      // BƯỚC 2: Tạo Phiếu Chi tổng (Giữ nguyên logic cũ của sếp)
       const payload = {
         tacGia: isLapping.tacGia._id,
         danhSachBai: isLapping.danhSachBai.map((b) => b._id),
@@ -196,7 +205,7 @@ function PhieuChi() {
           }}
           className={`btn-tab ${tabHienTai === "ChoTrinhDuyet" ? "active-blue" : ""}`}
         >
-          1. Gom Bài Trình Lãnh Đạo
+          1. Gửi Lãnh Đạo Duyệt
         </button>
         <button
           onClick={() => {

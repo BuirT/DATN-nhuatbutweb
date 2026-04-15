@@ -35,7 +35,6 @@
   flex: 1;
   min-width: 200px;
 }
-
 .nhuanbut-container .form-row-3 > * {
   flex: 1;
   min-width: 160px;
@@ -52,16 +51,13 @@
 .tax-preview strong {
   margin-left: 0.25rem;
 }
-
 .tax-preview-strong {
   font-size: 1.05rem;
 }
-
 .text-danger-strong {
   color: var(--danger);
   font-weight: 800;
 }
-
 .text-success-strong {
   color: var(--success);
   font-weight: 800;
@@ -92,7 +88,6 @@
 .th-money-warn {
   color: var(--danger) !important;
 }
-
 .th-money-ok {
   color: var(--success) !important;
 }
@@ -101,21 +96,19 @@
   font-weight: 600;
   color: var(--text);
 }
-
 .td-amount {
   font-weight: 700;
 }
-
 .td-money-warn {
   color: var(--danger);
   font-weight: 600;
 }
-
 .td-money-ok {
   color: var(--success);
   font-weight: 700;
   font-size: 0.95rem;
 }
+
 .nhuanbut-title-editing {
   border-left-color: var(--accent) !important;
 }
@@ -136,7 +129,6 @@
   background: var(--danger-muted);
   color: var(--danger);
 }
-
 .tax-preview--success {
   background: var(--success-muted);
   color: var(--success);
@@ -153,7 +145,6 @@
   background: var(--success-muted);
   border-color: rgba(52, 211, 153, 0.35);
 }
-
 .budget-panel--warn {
   background: var(--danger-muted);
   border-color: rgba(248, 113, 113, 0.4);
@@ -208,14 +199,12 @@ html[data-theme="light"] .btn-luu-bai {
   transform: translateY(-2px);
   filter: brightness(1.05);
 }
-
 .btn-luu-bai:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-
 .btn-luu-bai--muted {
   background: var(--text-subtle) !important;
   box-shadow: none !important;
@@ -245,29 +234,66 @@ html[data-theme="light"] .btn-luu-bai {
   box-shadow: 0 8px 24px rgba(52, 211, 153, 0.35);
 }
 
+/* ==========================================================================
+   KHU VỰC HUY HIỆU (BADGE) TRẠNG THÁI: 4 BƯỚC DUYỆT HỒ SƠ
+   ========================================================================== */
+.badge-cho,
+.badge-trinh,
 .badge-xong,
-.badge-cho {
+.badge-thanhtoan {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 700;
+  justify-content: center;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.badge-xong {
-  background: var(--success-muted);
-  color: var(--success);
-  border: 1px solid rgba(52, 211, 153, 0.35);
-}
-
+/* 1. CHỜ DUYỆT: MÀU ĐỎ */
 .badge-cho {
-  background: rgba(251, 191, 36, 0.15);
-  color: var(--warning);
-  border: 1px solid rgba(251, 191, 36, 0.35);
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
 }
+html[data-theme="light"] .badge-cho {
+  color: #dc2626 !important;
+}
+
+/* 2. TRÌNH LÃNH ĐẠO: MÀU VÀNG */
+.badge-trinh {
+  background: rgba(250, 204, 21, 0.15) !important;
+  color: #facc15 !important;
+  border: 1px solid rgba(250, 204, 21, 0.4) !important;
+}
+html[data-theme="light"] .badge-trinh {
+  color: #ca8a04 !important;
+}
+
+/* 3. ĐÃ DUYỆT: MÀU XANH DƯƠNG */
+.badge-xong {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: #3b82f6 !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+}
+html[data-theme="light"] .badge-xong {
+  color: #2563eb !important;
+}
+
+/* 4. ĐÃ THANH TOÁN: MÀU XANH LÁ */
+.badge-thanhtoan {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+}
+html[data-theme="light"] .badge-thanhtoan {
+  color: #059669 !important;
+}
+
+/* ========================================================================== */
 
 .section-heading {
   color: var(--text);
@@ -275,12 +301,10 @@ html[data-theme="light"] .btn-luu-bai {
   font-size: 1.1rem;
   font-weight: 700;
 }
-
 .issue-pill {
   font-weight: 700;
   color: var(--accent);
 }
-
 .khu-vuc-chu-ky {
   display: none;
 }
@@ -292,7 +316,6 @@ html[data-theme="light"] .btn-luu-bai {
   .toast-container {
     display: none !important;
   }
-
   body,
   .nhuanbut-container,
   .main-content {
@@ -300,12 +323,10 @@ html[data-theme="light"] .btn-luu-bai {
     background: none !important;
     color: black !important;
   }
-
   .bang-danh-sach th:last-child,
   .bang-danh-sach td:last-child {
     display: none !important;
   }
-
   .bang-danh-sach {
     border-collapse: collapse !important;
     width: 100% !important;
@@ -316,7 +337,6 @@ html[data-theme="light"] .btn-luu-bai {
     color: black !important;
     padding: 8px !important;
   }
-
   .khu-vuc-chu-ky {
     display: flex !important;
     justify-content: space-between !important;

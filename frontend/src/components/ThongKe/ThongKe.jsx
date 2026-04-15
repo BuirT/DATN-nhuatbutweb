@@ -98,8 +98,23 @@ function ThongKe() {
   const tyLeGiaiNgan = tongTienHienTai > 0 ? Math.round((tienDaChi / tongTienHienTai) * 100) : 0;
 
   // CHIA TÁCH CK/TM
-  const tienMat = dsDaThanhToan.filter((bai) => bai.hinhThucChi === "Tiền mặt").reduce((sum, bai) => sum + (Number(bai.thucLanh) || 0), 0);
-  const chuyenKhoan = dsDaThanhToan.filter((bai) => bai.hinhThucChi === "Chuyển khoản").reduce((sum, bai) => sum + (Number(bai.thucLanh) || 0), 0);
+  const tienMat = dsDaThanhToan.reduce((sum, bai) => {
+    // Lấy trường hinhThucChi hoặc hinhThuc (nếu có), đưa hết về chữ thường để dễ soi
+    const hinhThuc = String(bai.hinhThucChi || bai.hinhThuc || "").toLowerCase();
+    if (hinhThuc.includes("tm") || hinhThuc.includes("tiền mặt") || hinhThuc.includes("tien mat")) {
+      return sum + (Number(bai.thucLanh) || 0);
+    }
+    return sum;
+  }, 0);
+  const chuyenKhoan = dsDaThanhToan.reduce((sum, bai) => {
+    const hinhThuc = String(bai.hinhThucChi || bai.hinhThuc || "").toLowerCase();
+    if (hinhThuc.includes("ck") || hinhThuc.includes("chuyển khoản") || hinhThuc.includes("chuyen khoan")) {
+      return sum + (Number(bai.thucLanh) || 0);
+    }
+    return sum;
+  }, 0);
+
+  const tienKhongRoHinhThuc = tienDaChi - tienMat - chuyenKhoan;
 
   const demTrangThai = danhSachBaiViet.reduce((acc, bai) => {
     const status = bai.trangThai || "Chờ duyệt";
@@ -189,6 +204,13 @@ function ThongKe() {
               <span>Tiền mặt:</span>
               <strong className="text-green">{tienMat.toLocaleString()}đ</strong>
             </div>
+            {/* Hiển thị thêm nếu có hồ sơ cũ bị thiếu dữ liệu CK/TM */}
+            {tienKhongRoHinhThuc > 0 && (
+              <div className="split-item" style={{ opacity: 0.6 }}>
+                <span>Chưa phân loại:</span>
+                <strong style={{ color: "var(--warning)" }}>{tienKhongRoHinhThuc.toLocaleString()}đ</strong>
+              </div>
+            )}
           </div>
         </div>
 
@@ -209,7 +231,6 @@ function ThongKe() {
       <div className="progress-section">
         <div className="progress-header">
           <span>Tiến độ Giải Ngân Quỹ Nhuận Bút</span>
-          <span className="progress-percent text-green">{tyLeGiaiNgan}%</span>
         </div>
         <div className="progress-bar-bg">
           <div className="progress-bar-fill" style={{ width: `${tyLeGiaiNgan}%` }}>
