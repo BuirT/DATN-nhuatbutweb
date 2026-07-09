@@ -44,10 +44,10 @@ function Login({ onLogin }) {
         });
 
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("hoTen", res.data.hoTen);
-        localStorage.setItem("vaiTro", res.data.vaiTro);
+        localStorage.setItem("hoTen", res.data.user.hoTen);
+        localStorage.setItem("vaiTro", res.data.user.vaiTro);
 
-        toast.success(`Hệ thống xin chào ${res.data.vaiTro} ${res.data.hoTen}!`, {
+        toast.success(`Hệ thống xin chào ${res.data.user.vaiTro} ${res.data.user.hoTen}!`, {
           position: "top-right",
           autoClose: 2000,
           theme: "colored",

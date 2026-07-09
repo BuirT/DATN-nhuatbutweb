@@ -235,6 +235,52 @@ html[data-theme="light"] .btn-luu-bai {
 }
 
 /* ==========================================================================
+   NÚT HÀNH ĐỘNG DUYỆT (SM)
+   ========================================================================== */
+.btn-action-sm {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: var(--bg-hover);
+  color: var(--text);
+  transition: all 0.2s;
+}
+.btn-edit-sm {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.btn-edit-sm:hover {
+  background: var(--accent);
+  color: white;
+}
+.btn-del-sm {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-del-sm:hover {
+  background: var(--danger);
+  color: white;
+}
+.btn-approve-sm {
+  background: var(--success);
+  color: white;
+}
+.btn-approve-sm:hover {
+  filter: brightness(1.1);
+}
+.btn-reject-sm {
+  background: var(--danger);
+  color: white;
+}
+.btn-reject-sm:hover {
+  filter: brightness(1.1);
+}
+
+
+/* ==========================================================================
    KHU VỰC HUY HIỆU (BADGE) TRẠNG THÁI: 4 BƯỚC DUYỆT HỒ SƠ
    ========================================================================== */
 .badge-cho,

@@ -1,31 +1,16 @@
 const express = require("express");
-const mongoose = require("mongoose");
+
 const cors = require("cors");
 require("dotenv").config();
 
 // ==========================================================
-// 1. CẤU HÌNH KẾT NỐI (dùng file .env — xem backend/.env.example)
-// ==========================================================
-const MONGO_URI = process.env.MONGO_URI;
-if (!MONGO_URI) {
-  console.error("❌ Thiếu MONGO_URI trong .env. Sao chép backend/.env.example thành .env và điền chuỗi kết nối.");
-  process.exit(1);
-}
+// 2. KẾT NỐI DATABASE
+const { poolPromise } = require("./config/db");
+// poolPromise is initiated here, and it will connect automatically.
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// ==========================================================
-// 2. KẾT NỐI DATABASE
-// ==========================================================
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("✅ Đã kết nối MongoDB Atlas thành công!"))
-  .catch((err) => {
-      console.log("❌ Lỗi kết nối rồi anh ơi! Kiểm tra lại link hoặc mạng nhé.");
-      console.error(err);
-  });
 
 // ==========================================================
 // 3. ĐĂNG KÝ CÁC ROUTE (API)
@@ -50,7 +35,7 @@ app.use("/api/auth", require("./routes/authRoute"));
 
 // Thêm route kiểm tra nhanh cho đồng chí
 app.get("/", (req, res) => {
-    res.send("🚀 Server Đồ Án Nhuận Bút đang hoạt động xanh mượt!");
+  res.send("🚀 Server Đồ Án Nhuận Bút đang hoạt động xanh mượt!");
 });
 
 // ==========================================================

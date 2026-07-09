@@ -97,7 +97,15 @@ function TacGia() {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "dienThoai") {
+      const onlyNums = value.replace(/[^0-9]/g, "");
+      if (onlyNums.length <= 10) {
+        setFormData({ ...formData, [name]: onlyNums });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleXoa = async (id) => {
@@ -131,6 +139,10 @@ function TacGia() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.dienThoai && formData.dienThoai.length !== 10) {
+      toast.error("Số điện thoại phải bao gồm đúng 10 chữ số!");
+      return;
+    }
     try {
       if (isEditing) {
         await axios.put(`http://localhost:5000/api/tacgia/${isEditing}`, formData);

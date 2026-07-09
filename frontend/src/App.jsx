@@ -68,10 +68,10 @@ function App() {
     return <Login onLogin={handleLoginSuccess} />;
   }
 
-  const isThuKy = vaiTro === "Nhập Liệu" || vaiTro === "Thư ký" || vaiTro === "Admin";
-  const isKeToan = vaiTro === "Kế Toán" || vaiTro === "Kế toán" || vaiTro === "Admin";
-  const isLanhDao = vaiTro === "Lãnh đạo" || vaiTro === "Lãnh Đạo" || vaiTro === "Admin";
-  const isAdmin = vaiTro === "Admin";
+  const isThuKy = vaiTro === "Nhập Liệu" || vaiTro === "Thư ký" || vaiTro === "Admin" || vaiTro === "Quản trị viên" || vaiTro === "Tổng thư ký";
+  const isKeToan = vaiTro === "Kế Toán" || vaiTro === "Kế toán" || vaiTro === "Admin" || vaiTro === "Quản trị viên";
+  const isLanhDao = vaiTro === "Lãnh đạo" || vaiTro === "Lãnh Đạo" || vaiTro === "Admin" || vaiTro === "Quản trị viên";
+  const isAdmin = vaiTro === "Admin" || vaiTro === "Quản trị viên";
 
   return (
     <Router>
