@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Users, Newspaper, CircleDollarSign, FileCheck, ShieldCheck, UserCog, Settings, LogOut } from "lucide-react";
+import { Home, Users, Newspaper, CircleDollarSign, FileCheck, ShieldCheck, UserCog, Settings, LogOut, PenTool, BookOpen, Search, PieChart } from "lucide-react";
 import "./AppSidebar.css";
 
 export default function AppSidebar({ vaiTro, hoTen, handleLogout, isOpen }) {
@@ -33,17 +33,36 @@ export default function AppSidebar({ vaiTro, hoTen, handleLogout, isOpen }) {
           <Home size={20} />
           {isOpen && <span>Báo Cáo Thống Kê</span>}
         </Link>
+        <Link to="/bao-cao" className={`menu-item ${location.pathname === "/bao-cao" ? "active" : ""}`}>
+          <PieChart size={20} />
+          {isOpen && <span>Báo Cáo Chi Tiết</span>}
+        </Link>
+        <Link to="/tra-cuu" className={`menu-item ${location.pathname === "/tra-cuu" ? "active" : ""}`}>
+          <Search size={20} />
+          {isOpen && <span>Tra Cứu / Lọc Bài</span>}
+        </Link>
 
         {isThuKy && (
           <>
+            <div className="menu-label menu-label-spaced">Danh Mục</div>
             <Link to="/tac-gia" className={`menu-item ${location.pathname === "/tac-gia" ? "active" : ""}`}>
               <Users size={20} />
               {isOpen && <span>Quản lý Tác Giả</span>}
+            </Link>
+            <Link to="/but-danh" className={`menu-item ${location.pathname === "/but-danh" ? "active" : ""}`}>
+              <PenTool size={20} />
+              {isOpen && <span>Quản lý Bút Danh</span>}
+            </Link>
+            <Link to="/loai-bao" className={`menu-item ${location.pathname === "/loai-bao" ? "active" : ""}`}>
+              <BookOpen size={20} />
+              {isOpen && <span>Quản lý Loại Báo</span>}
             </Link>
             <Link to="/so-bao" className={`menu-item ${location.pathname === "/so-bao" ? "active" : ""}`}>
               <Newspaper size={20} />
               {isOpen && <span>Quản lý Số Báo</span>}
             </Link>
+            
+            <div className="menu-label menu-label-spaced">Biên Tập & Nhuận Bút</div>
             <Link to="/nhuan-but" className={`menu-item ${location.pathname === "/nhuan-but" ? "active" : ""}`}>
               <CircleDollarSign size={20} />
               {isOpen && <span>Quản lý Nhuận Bút</span>}

@@ -7,13 +7,18 @@ function NhuanBut() {
   const [danhSachBaiViet, setDanhSachBaiViet] = useState([]);
   const [danhSachTacGia, setDanhSachTacGia] = useState([]);
   const [danhSachSoBao, setDanhSachSoBao] = useState([]);
+  const [danhSachDinhMuc, setDanhSachDinhMuc] = useState([]);
+  const [danhSachButDanh, setDanhSachButDanh] = useState([]);
   const [cauHinh, setCauHinh] = useState({ mucChiuThue: 2000000, phanTramThue: 10 });
   const [isEditing, setIsEditing] = useState(null);
 
   const [formData, setFormData] = useState({
     tenBai: "",
-    tacGia: "",
+    butDanh: "",
     muc: "",
+    trang: "",
+    vung: "Bình thường",
+    vungChuyenDen: "",
     tienNhuanBut: "",
     soBao: "",
     ghiChu: "",
@@ -31,14 +36,18 @@ function NhuanBut() {
   // --- HÀM TẢI DỮ LIỆU TỪ BACKEND ---
   const layDuLieu = async () => {
     try {
-      const [resBaiViet, resTacGia, resSoBao] = await Promise.all([
+      const [resBaiViet, resTacGia, resSoBao, resDinhMuc, resButDanh] = await Promise.all([
         axios.get("http://localhost:5000/api/nhuanbut/danh-sach"),
         axios.get("http://localhost:5000/api/tacgia/danh-sach"),
         axios.get("http://localhost:5000/api/sobao/danh-sach"),
+        axios.get("http://localhost:5000/api/nhuanbut/dinh-muc"),
+        axios.get("http://localhost:5000/api/nhuanbut/but-danh"),
       ]);
       setDanhSachBaiViet(resBaiViet.data);
       setDanhSachTacGia(resTacGia.data);
       setDanhSachSoBao(resSoBao.data);
+      setDanhSachDinhMuc(resDinhMuc.data);
+      setDanhSachButDanh(resButDanh.data);
 
       try {
         const resCauHinh = await axios.get("http://localhost:5000/api/cauhinh");
@@ -90,10 +99,13 @@ function NhuanBut() {
   const handleChonSua = (bai) => {
     setIsEditing(bai._id);
     setFormData({
-      tenBai: bai.tenBai,
-      tacGia: bai.tacGia?._id || "",
+      tenBai: bai.tenBai || "",
+      butDanh: bai.butDanh || "",
       muc: bai.muc || "",
-      tienNhuanBut: bai.tienNhuanBut,
+      trang: bai.trang || "",
+      vung: bai.vung || "Bình thường",
+      vungChuyenDen: bai.vungChuyenDen || "",
+      tienNhuanBut: bai.tienNhuanBut || "",
       soBao: bai.soBao || "",
       ghiChu: bai.ghiChu || "",
     });
@@ -107,7 +119,7 @@ function NhuanBut() {
 
   const handleHuySua = () => {
     setIsEditing(null);
-    setFormData({ tenBai: "", tacGia: "", muc: "", tienNhuanBut: "", soBao: "", ghiChu: "" });
+    setFormData({ tenBai: "", butDanh: "", muc: "", trang: "", vung: "Bình thường", vungChuyenDen: "", tienNhuanBut: "", soBao: "", ghiChu: "" });
     setThue(0);
     setThucLanh(0);
   };
@@ -251,14 +263,12 @@ function NhuanBut() {
             <input className="input-full" type="text" name="tenBai" value={formData.tenBai} onChange={handleChange} placeholder="Tên bài viết" required />
   
             <div className="form-row-2">
-              <select name="tacGia" value={formData.tacGia} onChange={handleChange} required>
-                <option value="">-- Chọn Tác Giả --</option>
-                {danhSachTacGia.map((tg) => (
-                  <option key={tg._id} value={tg._id}>
-                    {tg.hoTen}
-                  </option>
+              <input type="text" name="butDanh" list="butDanhList" value={formData.butDanh} onChange={handleChange} placeholder="Bút danh" required />
+              <datalist id="butDanhList">
+                {danhSachButDanh.map((bd, i) => (
+                  <option key={i} value={bd.Butdanh} />
                 ))}
-              </select>
+              </datalist>
   
               <select name="soBao" value={formData.soBao} onChange={handleChange} required>
                 <option value="">-- Chọn Kỳ Báo / Số Báo --</option>
@@ -269,10 +279,31 @@ function NhuanBut() {
                 ))}
               </select>
             </div>
-  
+
             <div className="form-row-3">
-              <input type="number" name="tienNhuanBut" value={formData.tienNhuanBut} onChange={handleChange} placeholder="Nhập Tiền Gốc (VNĐ)" required min="0" />
+              <input type="number" name="trang" value={formData.trang} onChange={handleChange} placeholder="Số Trang" />
+              
+              <select name="muc" value={formData.muc} onChange={handleChange}>
+                <option value="">-- Chọn Mục Định Mức --</option>
+                {danhSachDinhMuc.map((dm, i) => (
+                  <option key={i} value={dm.Muc}>{dm.Muc}</option>
+                ))}
+              </select>
+
+              <select name="vung" value={formData.vung} onChange={handleChange}>
+                <option value="Bình thường">Vùng XB: Bình thường</option>
+                <option value="Đặc biệt">Vùng XB: Đặc biệt</option>
+                <option value="Khó khăn">Vùng XB: Khó khăn</option>
+              </select>
+            </div>
+            
+            <div className="form-row-2">
+               <input type="text" name="vungChuyenDen" value={formData.vungChuyenDen} onChange={handleChange} placeholder="Vùng chuyển đến (Tuỳ chọn)" />
+               <input type="number" name="tienNhuanBut" value={formData.tienNhuanBut} onChange={handleChange} placeholder="Nhập Tiền Gốc (VNĐ)" required min="0" />
+            </div>
   
+            <div className="form-row-3" style={{ marginTop: '15px' }}>
+              <div></div>
               <div className="tax-preview tax-preview--danger">
                 Thuế TNCN ({cauHinh.phanTramThue}% từ {cauHinh.mucChiuThue.toLocaleString("vi-VN")}đ): <strong>{thue.toLocaleString()}đ</strong>
               </div>
@@ -325,6 +356,7 @@ function NhuanBut() {
           <thead>
             <tr>
               <th>Tên bài</th>
+              <th>Bút danh</th>
               <th>Tác giả</th>
               <th>Số báo</th>
               <th>Tiền gốc</th>
@@ -375,6 +407,7 @@ function NhuanBut() {
                        </div>
                      )}
                   </td>
+                  <td>{bai.butDanh}</td>
                   <td>{bai.tacGia?.hoTen}</td>
                   <td>
                     <span className="issue-pill">{bai.soBao}</span>
@@ -410,7 +443,7 @@ function NhuanBut() {
             })}
             {danhSachBaiViet.length === 0 && (
               <tr>
-                <td colSpan="8" className="table-empty">
+                <td colSpan="9" className="table-empty">
                   Chưa có dữ liệu bài viết
                 </td>
               </tr>

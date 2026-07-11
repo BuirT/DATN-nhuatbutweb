@@ -1,73 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify"; // Nhúng động cơ thông báo
+import { toast } from "react-toastify";
 import "./TacGia.css";
 
 // Danh sách 63 Tỉnh/Thành phố Việt Nam (Xếp theo A-Z)
 const danhSachTinhThanh = [
-  "An Giang",
-  "Bà Rịa - Vũng Tàu",
-  "Bạc Liêu",
-  "Bắc Giang",
-  "Bắc Kạn",
-  "Bắc Ninh",
-  "Bến Tre",
-  "Bình Định",
-  "Bình Dương",
-  "Bình Phước",
-  "Bình Thuận",
-  "Cà Mau",
-  "Cao Bằng",
-  "Cần Thơ",
-  "Đà Nẵng",
-  "Đắk Lắk",
-  "Đắk Nông",
-  "Điện Biên",
-  "Đồng Nai",
-  "Đồng Tháp",
-  "Gia Lai",
-  "Hà Giang",
-  "Hà Nam",
-  "Hà Nội",
-  "Hà Tĩnh",
-  "Hải Dương",
-  "Hải Phòng",
-  "Hậu Giang",
-  "Hòa Bình",
-  "Hưng Yên",
-  "Khánh Hòa",
-  "Kiên Giang",
-  "Kon Tum",
-  "Lai Châu",
-  "Lâm Đồng",
-  "Lạng Sơn",
-  "Lào Cai",
-  "Long An",
-  "Nam Định",
-  "Nghệ An",
-  "Ninh Bình",
-  "Ninh Thuận",
-  "Phú Thọ",
-  "Phú Yên",
-  "Quảng Bình",
-  "Quảng Nam",
-  "Quảng Ngãi",
-  "Quảng Ninh",
-  "Quảng Trị",
-  "Sóc Trăng",
-  "Sơn La",
-  "Tây Ninh",
-  "Thái Bình",
-  "Thái Nguyên",
-  "Thanh Hóa",
-  "Thừa Thiên Huế",
-  "Tiền Giang",
-  "TP. Hồ Chí Minh",
-  "Trà Vinh",
-  "Tuyên Quang",
-  "Vĩnh Long",
-  "Vĩnh Phúc",
-  "Yên Bái",
+  "An Giang", "Bà Rịa - Vũng Tàu", "Bạc Liêu", "Bắc Giang", "Bắc Kạn", "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lâm Đồng", "Lạng Sơn", "Lào Cai", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình", "Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "TP. Hồ Chí Minh", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc", "Yên Bái",
 ];
 
 function TacGia() {
@@ -76,11 +14,17 @@ function TacGia() {
 
   const [formData, setFormData] = useState({
     maTacGia: "",
+    maThe: "",
     hoTen: "",
+    ngaySinh: "",
     butDanh: "",
     loaiTacGia: "CTV",
-    khuVuc: "TP. Hồ Chí Minh", // Đặt mặc định theo chuẩn danh sách mới
+    khuVuc: "TP. Hồ Chí Minh",
     dienThoai: "",
+    email: "",
+    soTaiKhoan: "",
+    phongBan: "",
+    nganHang: ""
   });
 
   const layDuLieu = async () => {
@@ -123,18 +67,24 @@ function TacGia() {
   const handleChonSua = (tacGia) => {
     setIsEditing(tacGia._id);
     setFormData({
-      maTacGia: tacGia.maTacGia,
-      hoTen: tacGia.hoTen,
+      maTacGia: tacGia.maTacGia || "",
+      maThe: tacGia.maThe || "",
+      hoTen: tacGia.hoTen || "",
+      ngaySinh: tacGia.ngaySinh ? new Date(tacGia.ngaySinh).toISOString().split('T')[0] : "",
       butDanh: tacGia.butDanh || "",
-      loaiTacGia: tacGia.loaiTacGia,
+      loaiTacGia: tacGia.loaiTacGia || "CTV",
       khuVuc: tacGia.khuVuc || "TP. Hồ Chí Minh",
       dienThoai: tacGia.dienThoai || "",
+      email: tacGia.email || "",
+      soTaiKhoan: tacGia.soTaiKhoan || "",
+      phongBan: tacGia.phongBan || "",
+      nganHang: tacGia.nganHang || ""
     });
   };
 
   const handleHuySua = () => {
     setIsEditing(null);
-    setFormData({ maTacGia: "", hoTen: "", butDanh: "", loaiTacGia: "CTV", khuVuc: "TP. Hồ Chí Minh", dienThoai: "" });
+    setFormData({ maTacGia: "", maThe: "", hoTen: "", ngaySinh: "", butDanh: "", loaiTacGia: "CTV", khuVuc: "TP. Hồ Chí Minh", dienThoai: "", email: "", soTaiKhoan: "", phongBan: "", nganHang: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -165,26 +115,42 @@ function TacGia() {
         <h2>{isEditing ? "Cập nhật thông tin tác giả" : "Thêm tác giả / phóng viên"}</h2>
 
         <form className="form-tacgia" onSubmit={handleSubmit}>
-          <input type="text" name="maTacGia" value={formData.maTacGia} onChange={handleChange} placeholder="Mã TG" required />
-          <input type="text" name="hoTen" value={formData.hoTen} onChange={handleChange} placeholder="Họ và Tên" required />
-          <input type="text" name="butDanh" value={formData.butDanh} onChange={handleChange} placeholder="Bút Danh" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <input type="text" name="maTacGia" value={formData.maTacGia} onChange={handleChange} placeholder="Mã TG (*)" required />
+            <input type="text" name="maThe" value={formData.maThe} onChange={handleChange} placeholder="Mã thẻ / CCCD" />
+          </div>
 
-          <select name="loaiTacGia" value={formData.loaiTacGia} onChange={handleChange}>
-            <option value="CTV">Cộng Tác Viên</option>
-            <option value="Phóng viên">Phóng Viên</option>
-          </select>
+          <input type="text" name="hoTen" value={formData.hoTen} onChange={handleChange} placeholder="Họ và Tên (*)" required />
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <input type="date" name="ngaySinh" value={formData.ngaySinh} onChange={handleChange} placeholder="Ngày sinh" />
+            <input type="text" name="butDanh" value={formData.butDanh} onChange={handleChange} placeholder="Bút Danh" />
+          </div>
 
-          {/* MENU CHỌN TỈNH THÀNH (TỰ ĐỘNG LẶP 63 TỈNH) */}
-          <select name="khuVuc" value={formData.khuVuc} onChange={handleChange} required>
-            <option value="">-- Chọn Tỉnh / Thành Phố --</option>
-            {danhSachTinhThanh.map((tinh, index) => (
-              <option key={index} value={tinh}>
-                {tinh}
-              </option>
-            ))}
-          </select>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <select name="loaiTacGia" value={formData.loaiTacGia} onChange={handleChange}>
+              <option value="CTV">Cộng Tác Viên</option>
+              <option value="Phóng viên">Phóng Viên</option>
+            </select>
+            <select name="khuVuc" value={formData.khuVuc} onChange={handleChange} required>
+              <option value="">-- Chọn Tỉnh / Thành Phố --</option>
+              {danhSachTinhThanh.map((tinh, index) => (
+                <option key={index} value={tinh}>{tinh}</option>
+              ))}
+            </select>
+          </div>
 
-          <input type="text" name="dienThoai" value={formData.dienThoai} onChange={handleChange} placeholder="Số điện thoại" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <input type="text" name="dienThoai" value={formData.dienThoai} onChange={handleChange} placeholder="Số điện thoại" />
+            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <input type="text" name="soTaiKhoan" value={formData.soTaiKhoan} onChange={handleChange} placeholder="Số Tài Khoản" />
+            <input type="text" name="nganHang" value={formData.nganHang} onChange={handleChange} placeholder="Ngân Hàng" />
+          </div>
+          
+          <input type="text" name="phongBan" value={formData.phongBan} onChange={handleChange} placeholder="Phòng ban" />
 
           <div className="tacgia-btn-row">
             <button type="submit" className="btn-luu">
@@ -208,9 +174,10 @@ function TacGia() {
             <tr>
               <th>Mã TG</th>
               <th>Họ Tên</th>
+              <th>CCCD</th>
               <th>Bút Danh</th>
               <th>Loại</th>
-              <th>Khu Vực</th>
+              <th>STK</th>
               <th>Điện Thoại</th>
               <th>Hành Động</th>
             </tr>
@@ -220,11 +187,12 @@ function TacGia() {
               <tr key={tacGia._id}>
                 <td className="tg-code">{tacGia.maTacGia}</td>
                 <td className="tg-name">{tacGia.hoTen}</td>
+                <td>{tacGia.maThe}</td>
                 <td>{tacGia.butDanh}</td>
                 <td>
                   <span className={tacGia.loaiTacGia === "Phóng viên" ? "tg-badge-pv" : "tg-badge-ctv"}>{tacGia.loaiTacGia}</span>
                 </td>
-                <td className="tg-region">{tacGia.khuVuc || "Chưa phân loại"}</td>
+                <td>{tacGia.soTaiKhoan}</td>
                 <td>{tacGia.dienThoai}</td>
                 <td>
                   <button type="button" onClick={() => handleChonSua(tacGia)} title="Sửa thông tin">
@@ -238,7 +206,7 @@ function TacGia() {
             ))}
             {danhSachTacGia.length === 0 && (
               <tr>
-                <td colSpan="7" className="table-empty">
+                <td colSpan="8" className="table-empty">
                   Chưa có dữ liệu tác giả
                 </td>
               </tr>

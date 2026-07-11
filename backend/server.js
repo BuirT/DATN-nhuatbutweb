@@ -30,6 +30,8 @@ app.use("/api/duyetchi", duyetChiRoute);
 app.use("/api/thongke", thongKeRoute);
 app.use("/api/sobao", soBaoRoute);
 app.use("/api/phieuchi", phieuChiRoute);
+app.use("/api/butdanh", require("./routes/butDanhRoute"));
+app.use("/api/loaibao", require("./routes/loaiBaoRoute"));
 app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/auth", require("./routes/authRoute"));
 

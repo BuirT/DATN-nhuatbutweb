@@ -15,6 +15,10 @@ import SoBao from "./components/SoBao/SoBao";
 import PhieuChi from "./components/PhieuChi/PhieuChi";
 import TaiKhoan from "./components/TaiKhoan/TaiKhoan";
 import CauHinh from "./components/CauHinh/CauHinh";
+import LoaiBao from "./components/LoaiBao/LoaiBao";
+import ButDanh from "./components/ButDanh/ButDanh";
+import TraCuu from "./components/TraCuu/TraCuu";
+import BaoCao from "./components/BaoCao/BaoCao";
 
 // 👉 BẮT BUỘC IMPORT CSS TỔNG ĐỂ CÓ NỀN TÍM VÀ NÚT LIGHT/DARK MODE
 import "./App.css";
@@ -117,12 +121,19 @@ function App() {
                 {isThuKy && (
                   <>
                     <Route path="/tac-gia" element={<TacGia />} />
+                    <Route path="/but-danh" element={<ButDanh />} />
                     <Route path="/so-bao" element={<SoBao />} />
+                    <Route path="/loai-bao" element={<LoaiBao />} />
                     <Route path="/nhuan-but" element={<NhuanBut />} />
+                    <Route path="/tra-cuu" element={<TraCuu />} />
                   </>
                 )}
                 {isKeToan && <Route path="/phieu-chi" element={<PhieuChi />} />}
                 {isLanhDao && <Route path="/duyet-chi" element={<DuyetChi />} />}
+                
+                {/* Báo cáo có thể xem bởi nhiều role */}
+                <Route path="/bao-cao" element={<BaoCao />} />
+                
                 {isAdmin && (
                   <>
                     <Route path="/quan-ly-tai-khoan" element={<TaiKhoan />} />
