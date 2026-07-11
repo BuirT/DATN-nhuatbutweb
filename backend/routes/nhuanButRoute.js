@@ -276,13 +276,14 @@ router.get("/tra-cuu", async (req, res) => {
       SELECT 
         N.Maso as _id, N.Tenbai as tenBai, N.Butdanh as butDanh,
         N.Muc as muc, N.Trang as trang, N.Vung as vung, N.VungChuyenDen as vungChuyenDen,
-        N.Tien as tienNhuanBut, N.MsBao as soBao,
+        N.TienNhuanbut as tienNhuanBut, N.MsBao as soBao,
         N.TrangThaiDuyet as trangThaiDuyet,
         N.Ghichu as ghiChu,
         N.NguoiChamTien, N.NgayChamTien,
-        N.Thue as thue, N.ThucLanh as thucLanh, N.LyDoBaoSai as lyDoBaoSai,
+        CT.Thue as thue, CT.Conlai as thucLanh, N.LyDoBaoSai as lyDoBaoSai,
         T.Maso as tacGia_id, T.Hoten as tacGia_hoTen
       FROM Nhuanbut N
+      LEFT JOIN NhuanbutCT CT ON N.Maso = CT.MsNhuanbut
       LEFT JOIN Butdanh BD ON BD.Butdanh = N.Butdanh
       LEFT JOIN TacGia T ON T.Maso = BD.MsTacgia
       WHERE 1=1

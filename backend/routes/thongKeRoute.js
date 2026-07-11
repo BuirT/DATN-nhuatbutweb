@@ -93,7 +93,7 @@ router.get("/lanh-dao", async (req, res) => {
     const pool = await poolPromise;
     const query = `
       SELECT 
-          nb.Maso as id, nb.Tenbai as tenBai, nb.Tien as tienNhuanbut, nb.TrangThaiDuyet as trangThaiDuyet,
+          nb.Maso as id, nb.Tenbai as tenBai, nb.TienNhuanbut as tienNhuanbut, nb.TrangThaiDuyet as trangThaiDuyet,
           nb.Butdanh as butDanh, nb.NgayChamTien as ngayDang,
           ct.SauThanhToan as thanhToan, ct.Sotien as soTienThuc,
           tg.Hoten AS tacGia

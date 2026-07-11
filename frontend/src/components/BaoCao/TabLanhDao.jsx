@@ -120,7 +120,7 @@ function TabLanhDao() {
                   <td>{item.butDanh}</td>
                   <td>{item.tacGia}</td>
                   <td>{new Date(item.ngayDang).toLocaleDateString("vi-VN")}</td>
-                  <td className="text-right val-blue text-bold">{item.tienNhuanbut.toLocaleString()}đ</td>
+                  <td className="text-right val-blue text-bold">{(item.tienNhuanbut || 0).toLocaleString()}đ</td>
                   <td>
                     <span style={{ 
                         padding: "4px 8px", 

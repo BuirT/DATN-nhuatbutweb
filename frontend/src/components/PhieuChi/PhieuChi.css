@@ -40,7 +40,7 @@
 }
 
 .btn-tab.active-blue {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, var(--accent-hover), #3b82f6);
   color: #fff;
   border-color: transparent;
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
@@ -168,7 +168,7 @@
 }
 
 .btn-submit.blue {
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, var(--accent-hover), #3b82f6);
   box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
 }
 

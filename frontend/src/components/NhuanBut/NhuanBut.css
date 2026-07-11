@@ -326,7 +326,7 @@ html[data-theme="light"] .badge-trinh {
   border: 1px solid rgba(59, 130, 246, 0.4) !important;
 }
 html[data-theme="light"] .badge-xong {
-  color: #2563eb !important;
+  color: var(--accent-hover) !important;
 }
 
 /* 4. ĐÃ THANH TOÁN: MÀU XANH LÁ */

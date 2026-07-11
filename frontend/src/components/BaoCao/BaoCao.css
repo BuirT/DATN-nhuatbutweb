@@ -5,7 +5,7 @@
 }
 
 .baocao-header {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-2);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -18,7 +18,7 @@
 
 .baocao-title {
   margin: 0;
-  color: var(--text-primary);
+  color: var(--text);
   font-size: 1.5rem;
 }
 
@@ -31,32 +31,32 @@
   padding: 10px 15px;
   border: none;
   background-color: transparent;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
 }
 
 .tab-btn:hover {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
+  background-color: var(--surface-2);
+  color: var(--text);
 }
 
 .tab-btn.active {
-  background-color: var(--accent-blue);
+  background-color: var(--accent);
   color: white;
-  border-color: var(--accent-blue);
+  border-color: var(--accent);
   box-shadow: 0 2px 5px rgba(59, 130, 246, 0.3);
 }
 
 .tab-content {
-  background-color: var(--bg-primary);
+  background-color: var(--surface);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .filter-bar {
@@ -64,10 +64,10 @@
   gap: 15px;
   margin-bottom: 20px;
   align-items: flex-end;
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-2);
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
 }
 
 .filter-group {
@@ -79,25 +79,25 @@
 .filter-group label {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .filter-group select, .filter-group input {
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--text);
   outline: none;
 }
 
 .filter-group select:focus, .filter-group input:focus {
-  border-color: var(--accent-blue);
+  border-color: var(--accent);
 }
 
 .btn-fetch {
   padding: 8px 16px;
-  background-color: var(--accent-blue);
+  background-color: var(--accent);
   color: white;
   border: none;
   border-radius: 6px;
@@ -126,17 +126,17 @@
 }
 
 .card {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-2);
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   text-align: center;
 }
 
 .card-title {
   font-size: 13px;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   margin-bottom: 10px;
 }
 
@@ -151,10 +151,10 @@
 .val-yellow { color: #f59e0b; }
 
 .chart-section {
-  background-color: var(--bg-secondary);
+  background-color: var(--surface-2);
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   margin-bottom: 20px;
   height: 350px;
 }
@@ -162,19 +162,7 @@
 .table-section {
   overflow-x: auto;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.bang-danh-sach th {
-  background-color: var(--bg-secondary);
-  font-weight: bold;
-  color: var(--text-secondary);
-}
-
-.bang-danh-sach th, .bang-danh-sach td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border-color);
-  text-align: left;
+  border: 1px solid var(--border);
 }
 
 .text-right {
